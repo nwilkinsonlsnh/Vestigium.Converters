@@ -50,7 +50,8 @@ public sealed class BooleanConverterTests
         Assert.Equal(Visibility.Collapsed, vis.Convert(null, typeof(Visibility), null, Culture));
         Assert.Equal(Visibility.Visible, vis.Convert("item", typeof(Visibility), null, Culture));
         Assert.Equal(false, flag.Convert(null, typeof(bool), null, Culture));
-        Assert.Equal(true, flag.Convert(1, typeof(bool), "Inverse", Culture));
+        Assert.Equal(false, flag.Convert(1, typeof(bool), "Inverse", Culture));
+        Assert.Equal(true, flag.Convert(null, typeof(bool), "Inverse", Culture));
     }
 
     [Fact]
