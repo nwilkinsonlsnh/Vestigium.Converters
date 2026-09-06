@@ -29,9 +29,6 @@ internal static class ConversionHelpers
             case bool b:
                 result = b;
                 return true;
-            case bool? nb:
-                result = nb == true;
-                return true;
             case string s when bool.TryParse(s, out var parsed):
                 result = parsed;
                 return true;
