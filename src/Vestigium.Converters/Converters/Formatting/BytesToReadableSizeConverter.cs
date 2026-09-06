@@ -27,6 +27,6 @@ public sealed class BytesToReadableSizeConverter : BaseDiConverter
         }
 
         var format = "F" + decimals.ToString(CultureInfo.InvariantCulture);
-        return string.Create(culture, $"{size.ToString(format, culture)} {Units[unit]}");
+        return string.Concat(size.ToString(format, culture), " ", Units[unit]);
     }
 }

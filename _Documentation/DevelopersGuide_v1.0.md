@@ -33,14 +33,16 @@ Positional type constructor is also valid:
 ## 2. Infrastructure
 
 | Type | Role |
-|---|---|
+|---|---|---|
 | `IConverterProvider` | Singleton locator |
 | `DiConverterExtension` / `ResolveExtension` | Markup extension |
 | `BaseDiConverter` | Sealed Convert wrappers, UnsetValue on throw |
 | `BaseDiMultiConverter` | IMultiValueConverter sibling (no v1 catalog items) |
 | `FallbackConverter` | Always UnsetValue |
 
-`BaseDiConverter.GetService<T>()` resolves optional host services lazily and caches them on the singleton instance. Catalog converters stay parameterless so the designer can `Activator.CreateInstance` them.
+`BaseDiConverter.GetService<T>()` resolves optional host services lazily. Hits are cached on the singleton instance; misses are not, so assigning `VestigiumConverterHost.ServiceProvider` after the first Convert still works. Catalog converters stay parameterless so the designer can `Activator.CreateInstance` them.
+
+`IConverterProvider` only Activator-constructs types that implement `IValueConverter` or `IMultiValueConverter`. Anything else returns `FallbackConverter`.
 
 ## 3. Converter notes
 
@@ -106,4 +108,4 @@ Run on Windows:
 dotnet test src/Vestigium.Converters.Tests
 ```
 
-Coverage includes mapping tables, `ConvertBack` policy, UnsetValue fail-safe, singleton registration, and CONV-18 configuration override.
+Coverage includes mapping tables, `ConvertBack` policy, UnsetValue fail-safe, singleton registration, CONV-18 configuration override, and collection/badge edge cases (string vs IEnumerable).

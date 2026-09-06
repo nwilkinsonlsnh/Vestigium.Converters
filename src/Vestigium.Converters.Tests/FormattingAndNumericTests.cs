@@ -43,6 +43,7 @@ public sealed class FormattingAndNumericTests
         var c = new TimeSpanToReadableConverter();
         Assert.Equal("2h 15m 30s", c.Convert(new TimeSpan(2, 15, 30), typeof(string), null, Culture));
         Assert.Equal("0s", c.Convert(TimeSpan.Zero, typeof(string), null, Culture));
+        Assert.Equal("2 hours 15 minutes 30 seconds", c.Convert(new TimeSpan(2, 15, 30), typeof(string), "Long", Culture));
     }
 
     [Fact]
@@ -90,7 +91,10 @@ public sealed class FormattingAndNumericTests
         var badge = new CountToBadgeStringConverter();
         Assert.Equal(Visibility.Collapsed, empty.Convert(Array.Empty<int>(), typeof(Visibility), null, Culture));
         Assert.Equal(Visibility.Visible, empty.Convert(new[] { 1 }, typeof(Visibility), null, Culture));
+        Assert.Equal(Visibility.Visible, empty.Convert(Array.Empty<int>(), typeof(Visibility), "Inverse", Culture));
         Assert.Equal("99+", badge.Convert(120, typeof(string), null, Culture));
         Assert.Equal("12", badge.Convert(12, typeof(string), null, Culture));
+        Assert.Equal("2", badge.Convert(new[] { 1, 2 }, typeof(string), null, Culture));
+        Assert.Equal("12", badge.Convert("12", typeof(string), null, Culture));
     }
 }

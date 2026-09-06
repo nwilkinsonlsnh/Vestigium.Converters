@@ -1,5 +1,7 @@
 # Vestigium.Converters
 
+[![build](https://github.com/nwilkinsonlsnh/Vestigium.Converters/actions/workflows/build.yml/badge.svg)](https://github.com/nwilkinsonlsnh/Vestigium.Converters/actions/workflows/build.yml)
+
 DI-driven WPF `IValueConverter` catalog for the Vestigium suite (PingIQ, DnsIQ, TraceIQ, HttpIQ, ProbeHost).
 
 **Target:** .NET 10 LTS / WPF / Visual Studio 2026  
@@ -72,7 +74,7 @@ Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestig
 ## Projects
 
 | Project | Role |
-|---|---|
+|---|---|---|
 | `Vestigium.Converters` | Infrastructure + catalog |
 | `Vestigium.Converters.Tests` | Mapping, fail-safe, DI lifetime tests |
 | `Vestigium.Converters.Demo` | Host sample using `{v:Resolve}` |
@@ -83,3 +85,4 @@ Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestig
 - Design-time XAML preview instantiates converters without a host `IServiceProvider`.
 - Domain converters accept **enum or string** and do not reference PingIQ / HttpIQ assemblies.
 - Frozen cached brushes on CONV-17 / CONV-18.
+- Optional services (`IThemeBrushes`, `IConfiguration`) are resolved lazily; a miss does not cache as failure.
