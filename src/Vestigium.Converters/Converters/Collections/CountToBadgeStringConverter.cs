@@ -5,7 +5,7 @@ using Vestigium.Converters.Infrastructure;
 
 namespace Vestigium.Converters.Converters.Collections;
 
-/// <summary>CONV-16: integer/count → badge string, capping at max (default 99+) .</summary>
+/// <summary>CONV-16: integer/count → badge string, capping at max (default 99+).</summary>
 public sealed class CountToBadgeStringConverter : BaseDiConverter
 {
     protected override object ConvertCore(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -21,7 +21,7 @@ public sealed class CountToBadgeStringConverter : BaseDiConverter
             max = parsed;
 
         return count > max
-            ? string.Create(culture, $"{max}+")
+            ? string.Concat(max.ToString(culture), "+")
             : count.ToString(culture);
     }
 
@@ -32,7 +32,21 @@ public sealed class CountToBadgeStringConverter : BaseDiConverter
             case ICollection collection:
                 count = collection.Count;
                 return true;
-            case IEnumerable enumerable when enumerable.TryGetNonEnumeratedCount(out var n):
+            case string:
+                return ConversionHelpers.TryToInt(value, culture, out count);
+            case IEnumerable enumerable:
+                var n = 0;
+                var enumerator = enumerable.GetEnumerator();
+                try
+                {
+                    while (enumerator.MoveNext())
+                        n++;
+                }
+                finally
+                {
+                    (enumerator as IDisposable)?.Dispose();
+                }
+
                 count = n;
                 return true;
             default:

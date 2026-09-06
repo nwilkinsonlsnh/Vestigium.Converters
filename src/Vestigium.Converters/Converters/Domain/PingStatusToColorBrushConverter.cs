@@ -13,7 +13,7 @@ public sealed class PingStatusToColorBrushConverter : BaseDiConverter
         var (semantic, hex) = key switch
         {
             "success" or "ok" or "reply" => (BrushCache.Success, BrushCache.FallbackSuccess),
-            "timeout" or "timedout" or "timed_out" => (BrushCache.Warning, BrushCache.FallbackWarning),
+            "timeout" or "timedout" => (BrushCache.Warning, BrushCache.FallbackWarning),
             "destinationunreachable" or "unreachable" => (BrushCache.Danger, BrushCache.FallbackDanger),
             "ttlexpired" or "timeexceeded" or "ttl" => (BrushCache.AccentWarning, BrushCache.FallbackAccentWarning),
             _ => (BrushCache.Neutral, BrushCache.FallbackNeutral),
@@ -30,10 +30,7 @@ public sealed class PingStatusToColorBrushConverter : BaseDiConverter
         if (value is null)
             return string.Empty;
 
-        var text = value is Enum
-            ? value.ToString() ?? string.Empty
-            : value.ToString() ?? string.Empty;
-
+        var text = value.ToString() ?? string.Empty;
         return text.Replace("-", "", StringComparison.Ordinal)
             .Replace(" ", "", StringComparison.Ordinal)
             .Replace("_", "", StringComparison.Ordinal)

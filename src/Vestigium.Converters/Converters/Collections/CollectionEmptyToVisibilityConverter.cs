@@ -25,8 +25,6 @@ public sealed class CollectionEmptyToVisibilityConverter : BaseDiConverter
                 return true;
             case ICollection collection:
                 return collection.Count == 0;
-            case IEnumerable enumerable when enumerable.TryGetNonEnumeratedCount(out var count):
-                return count == 0;
             case IEnumerable enumerable:
                 var enumerator = enumerable.GetEnumerator();
                 try

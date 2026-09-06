@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Windows.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Vestigium.Converters.Infrastructure;
 
@@ -34,6 +35,11 @@ public sealed class ConverterProvider : IConverterProvider
                 return resolved;
 
             if (type.IsAbstract || type.IsInterface)
+                return FallbackConverter.Instance;
+
+            var isConverter = typeof(IValueConverter).IsAssignableFrom(type)
+                || typeof(IMultiValueConverter).IsAssignableFrom(type);
+            if (!isConverter)
                 return FallbackConverter.Instance;
 
             return Activator.CreateInstance(type) ?? FallbackConverter.Instance;
