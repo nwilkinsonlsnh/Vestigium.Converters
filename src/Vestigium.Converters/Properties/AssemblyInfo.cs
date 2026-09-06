@@ -1,8 +1,10 @@
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Markup;
 using Vestigium.Converters;
 
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
+[assembly: InternalsVisibleTo("Vestigium.Converters.Tests")]
 
 [assembly: XmlnsDefinition(Xmlns.Uri, "Vestigium.Converters.Xaml")]
 [assembly: XmlnsDefinition(Xmlns.Uri, "Vestigium.Converters.Converters.Boolean")]
