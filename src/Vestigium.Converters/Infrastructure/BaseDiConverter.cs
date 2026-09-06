@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 
 namespace Vestigium.Converters.Infrastructure;
@@ -51,11 +52,6 @@ public abstract class BaseDiConverter : IValueConverter
     protected virtual object? ConvertBackCore(object? value, Type targetType, object? parameter, CultureInfo culture)
         => Binding.DoNothing;
 
-    /// <summary>
-    /// Lazy optional service lookup. Misses are not cached so a host that assigns
-    /// <see cref="VestigiumConverterHost.ServiceProvider"/> after first Convert still resolves.
-    /// ConcurrentDictionary forbids null values — never store a miss.
-    /// </summary>
     protected T? GetService<T>() where T : class
     {
         if (_services.TryGetValue(typeof(T), out var boxed) && boxed is T hit)
@@ -81,6 +77,10 @@ public abstract class BaseDiConverter : IValueConverter
 
         return null;
     }
+
+    protected Brush ResolveSemanticBrush(string semantic)
+        => GetService<IThemeBrushes>()?.TryGet(semantic)
+           ?? BrushCache.FromHex(ConversionHelpers.FallbackHex(semantic));
 
     private void Log(Exception ex)
     {
