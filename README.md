@@ -44,9 +44,9 @@ VestigiumConverterHost.ServiceProvider = services.BuildServiceProvider();
 
 Do this during `Application.OnStartup` (or your generic host build) before the first window.
 
-Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestigiumConverters` if CONV-18 / CONV-17 should read suite preferences or theme tokens.
+Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestigiumConverters` if latency / packet-loss converters should read suite preferences or theme tokens.
 
-## Catalog (20)
+## Catalog (42)
 
 | ID | Converter | Group |
 |---|---|---|
@@ -70,6 +70,28 @@ Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestig
 | CONV-18 | `LatencyToSeverityColorConverter` | Domain |
 | CONV-19 | `HttpStatusCodeToDescriptionConverter` | Domain |
 | CONV-20 | `DnsRecordTypeToIconConverter` | Domain |
+| CONV-21 | `EqualityToBooleanConverter` | Boolean |
+| CONV-22 | `EqualityToVisibilityConverter` | Visibility |
+| CONV-23 | `IsLessThanToBooleanConverter` | Numeric |
+| CONV-24 | `IsBetweenToBooleanConverter` | Numeric |
+| CONV-25 | `BooleanToBrushConverter` | Boolean |
+| CONV-26 | `BooleanToOpacityConverter` | Boolean |
+| CONV-27 | `HttpStatusToSeverityBrushConverter` | Domain |
+| CONV-28 | `PercentToStringConverter` | Formatting |
+| CONV-29 | `MillisecondsToStringConverter` | Formatting |
+| CONV-30 | `CollectionHasItemsToBooleanConverter` | Collections |
+| CONV-31 | `BooleanAndToVisibilityConverter` | MultiBinding |
+| CONV-32 | `BooleanOrToVisibilityConverter` | MultiBinding |
+| CONV-33 | `DnsResponseCodeToDescriptionConverter` | Domain |
+| CONV-34 | `TraceHopStatusToBrushConverter` | Domain |
+| CONV-35 | `PortStateToBrushConverter` | Domain |
+| CONV-36 | `TruncateStringConverter` | Formatting |
+| CONV-37 | `UtcTimestampToStringConverter` | Formatting |
+| CONV-38 | `PacketLossToSeverityBrushConverter` | Domain |
+| CONV-39 | `ProgressToPercentConverter` | Numeric |
+| CONV-40 | `StringEqualsToVisibilityConverter` | Visibility |
+| CONV-41 | `InvertVisibilityConverter` | Visibility |
+| CONV-42 | `EnumMatchToVisibilityConverter` | Visibility |
 
 ## Projects
 
@@ -84,5 +106,5 @@ Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestig
 - Convert never throws on the dispatcher. Failures return `DependencyProperty.UnsetValue`.
 - Design-time XAML preview instantiates converters without a host `IServiceProvider`.
 - Domain converters accept **enum or string** and do not reference PingIQ / HttpIQ assemblies.
-- Frozen cached brushes on CONV-17 / CONV-18.
+- Frozen cached brushes on severity converters.
 - Optional services (`IThemeBrushes`, `IConfiguration`) are resolved lazily; a miss does not cache as failure.

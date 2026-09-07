@@ -16,12 +16,15 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty] private object? selectedHop = "edge-1.vestigium.local";
     [ObservableProperty] private string note = "Ready";
     [ObservableProperty] private double latencyMs = 42;
+    [ObservableProperty] private double packetLoss = 0.4;
     [ObservableProperty] private long payloadBytes = 1_048_576;
     [ObservableProperty] private int httpStatus = 200;
     [ObservableProperty] private string dnsType = "MX";
     [ObservableProperty] private string pingStatus = "Success";
     [ObservableProperty] private TimeSpan uptime = new(2, 15, 30);
     [ObservableProperty] private int resultCount = 12;
+    [ObservableProperty] private string targetHost = "edge-west-01.probe.vestigium.example.net";
+    [ObservableProperty] private DateTimeOffset capturedAt = new(2026, 9, 6, 23, 50, 0, TimeSpan.Zero);
 
     public ObservableCollection<string> Hops { get; } = [];
 
