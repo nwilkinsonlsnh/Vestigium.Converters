@@ -1,0 +1,72 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="http://schemas.vestigium.dev/converters">
+  <DataTemplate x:Key="ShowcaseTab">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="300"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Border Style="{StaticResource Panel}" Margin="0,0,12,0">
+        <StackPanel>
+          <TextBlock FontWeight="SemiBold" FontSize="16" Text="Live probe"/>
+          <CheckBox Content="Busy overlay" IsChecked="{Binding IsBusy}"/>
+          <CheckBox Content="Has selection" IsChecked="{Binding HasSelection}"/>
+          <CheckBox Content="Connected" IsChecked="{Binding IsConnected}"/>
+          <TextBlock Style="{StaticResource Caption}" Text="Ping / DNS"/>
+          <ComboBox ItemsSource="{Binding PingStatuses}" SelectedItem="{Binding PingStatus}"/>
+          <ComboBox ItemsSource="{Binding DnsTypes}" SelectedItem="{Binding DnsType}"/>
+          <TextBlock Style="{StaticResource Caption}" Text="Latency / loss / HTTP"/>
+          <Slider Minimum="1" Maximum="250" Value="{Binding LatencyMs}"/>
+          <Slider Minimum="0" Maximum="20" Value="{Binding PacketLoss}"/>
+          <Slider Minimum="100" Maximum="599" Value="{Binding HttpStatus}"/>
+          <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+            <Button Content="Clear hops" Command="{Binding ClearHopsCommand}"/>
+            <Button Content="Restore hops" Command="{Binding RestoreHopsCommand}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+      <Border Grid.Column="1" Style="{StaticResource Panel}">
+        <Grid>
+          <StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <Ellipse Width="16" Height="16" Margin="0,2,10,0"
+                       Fill="{Binding PingStatus, Converter={v:Resolve {x:Type v:PingStatusToColorBrushConverter}}}"/>
+              <TextBlock FontSize="20" FontWeight="SemiBold"
+                         Text="{Binding PingStatus, Converter={v:Resolve {x:Type v:StringToUpperConverter}}}"/>
+            </StackPanel>
+            <TextBlock Opacity="0.7" Text="{Binding TargetHost, Converter={v:Resolve {x:Type v:TruncateStringConverter}}, ConverterParameter=40}"/>
+            <TextBlock Text="{Binding CapturedAt, Converter={v:Resolve {x:Type v:UtcTimestampToStringConverter}}}"/>
+            <TextBlock Style="{StaticResource Caption}" Text="Latency CONV-18 / CONV-29"/>
+            <TextBlock Text="{Binding LatencyMs, Converter={v:Resolve {x:Type v:MillisecondsToStringConverter}}}"/>
+            <Rectangle Height="10" RadiusX="4" RadiusY="4" Fill="{Binding LatencyMs, Converter={v:Resolve {x:Type v:LatencyToSeverityColorConverter}}}"/>
+            <TextBlock Style="{StaticResource Caption}" Text="Packet loss CONV-38 / CONV-28"/>
+            <TextBlock Text="{Binding PacketLoss, Converter={v:Resolve {x:Type v:PercentToStringConverter}}}"/>
+            <Rectangle Height="10" RadiusX="4" RadiusY="4" Fill="{Binding PacketLoss, Converter={v:Resolve {x:Type v:PacketLossToSeverityBrushConverter}}}"/>
+            <TextBlock Style="{StaticResource Caption}" Text="HTTP CONV-19 / CONV-27"/>
+            <StackPanel Orientation="Horizontal">
+              <Ellipse Width="12" Height="12" Margin="0,2,8,0" Fill="{Binding HttpStatus, Converter={v:Resolve {x:Type v:HttpStatusToSeverityBrushConverter}}}"/>
+              <TextBlock Text="{Binding HttpStatus, Converter={v:Resolve {x:Type v:HttpStatusCodeToDescriptionConverter}}}"/>
+            </StackPanel>
+            <TextBlock Style="{StaticResource Caption}" Text="DNS CONV-20"/>
+            <TextBlock FontFamily="Segoe Fluent Icons" FontSize="26" Text="{Binding DnsType, Converter={v:Resolve {x:Type v:DnsRecordTypeToIconConverter}}}"/>
+            <TextBlock Text="{Binding PayloadBytes, Converter={v:Resolve {x:Type v:BytesToReadableSizeConverter}}}"/>
+            <TextBlock Text="{Binding Uptime, Converter={v:Resolve {x:Type v:TimeSpanToReadableConverter}}}"/>
+            <Border Style="{StaticResource Chip}" HorizontalAlignment="Left">
+              <TextBlock Margin="0" Text="{Binding ResultCount, Converter={v:Resolve {x:Type v:CountToBadgeStringConverter}}}"/>
+            </Border>
+            <ListBox ItemsSource="{Binding Hops}" SelectedItem="{Binding SelectedHop}" Height="80" Margin="0,8,0,4"/>
+            <TextBlock Text="No route data" Visibility="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionEmptyToVisibilityConverter}}, ConverterParameter=Inverse}"/>
+            <Border Style="{StaticResource Chip}" Visibility="{Binding SelectedHop, Converter={v:Resolve {x:Type v:NullToVisibilityConverter}}}">
+              <TextBlock Margin="0" Text="{Binding SelectedHop, StringFormat=Selected hop: {0}}"/>
+            </Border>
+            <TextBlock Text="{Binding Note}" Visibility="{Binding Note, Converter={v:Resolve {x:Type v:EmptyStringToVisibilityConverter}}}"/>
+          </StackPanel>
+          <Border Background="#CC0B1A30" Visibility="{Binding IsBusy, Converter={v:Resolve {x:Type v:BooleanToVisibilityConverter}}}">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="Loading…"/>
+          </Border>
+        </Grid>
+      </Border>
+    </Grid>
+  </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="http://schemas.vestigium.dev/converters">
+  <DataTemplate x:Key="VisibilityTab">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <UniformGrid Columns="2">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-01 BooleanToVisibilityConverter"/>
+            <CheckBox Content="IsBusy" IsChecked="{Binding IsBusy}"/>
+            <Border Style="{StaticResource Chip}" Visibility="{Binding IsBusy, Converter={v:Resolve {x:Type v:BooleanToVisibilityConverter}}}">
+              <TextBlock Margin="0" Text="Visible while busy"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-02 InverseBooleanToVisibilityConverter"/>
+            <Border Style="{StaticResource Chip}" Background="#166534" Visibility="{Binding IsBusy, Converter={v:Resolve {x:Type v:InverseBooleanToVisibilityConverter}}}">
+              <TextBlock Margin="0" Text="Visible while idle"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-03 BooleanToVisibilityHiddenConverter"/>
+            <TextBlock Opacity="0.7" Text="Top row Collapsed. Bottom row Hidden (keeps the gap)."/>
+            <StackPanel Orientation="Horizontal" Margin="0,6">
+              <Border Width="40" Height="26" Background="#334155" Margin="0,0,6,0"/>
+              <Border Width="64" Height="26" Background="#0D7377" Margin="0,0,6,0" Visibility="{Binding IsBusy, Converter={v:Resolve {x:Type v:BooleanToVisibilityConverter}}}"/>
+              <Border Width="40" Height="26" Background="#334155"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <Border Width="40" Height="26" Background="#334155" Margin="0,0,6,0"/>
+              <Border Width="64" Height="26" Background="#1D4ED8" Margin="0,0,6,0" Visibility="{Binding IsBusy, Converter={v:Resolve {x:Type v:BooleanToVisibilityHiddenConverter}}}"/>
+              <Border Width="40" Height="26" Background="#334155"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-05 NullToVisibilityConverter"/>
+            <Border Style="{StaticResource Chip}" Visibility="{Binding SelectedHop, Converter={v:Resolve {x:Type v:NullToVisibilityConverter}}}">
+              <TextBlock Margin="0" Text="{Binding SelectedHop}"/>
+            </Border>
+            <StackPanel Orientation="Horizontal">
+              <Button Content="Clear hops" Command="{Binding ClearHopsCommand}"/>
+              <Button Content="Restore hops" Command="{Binding RestoreHopsCommand}"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-07 EmptyStringToVisibilityConverter"/>
+            <TextBlock Text="{Binding Note}" Visibility="{Binding Note, Converter={v:Resolve {x:Type v:EmptyStringToVisibilityConverter}}}"/>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-22 EqualityToVisibilityConverter  param=Success"/>
+            <ComboBox ItemsSource="{Binding PingStatuses}" SelectedItem="{Binding PingStatus}"/>
+            <Border Style="{StaticResource Chip}" Visibility="{Binding PingStatus, Converter={v:Resolve {x:Type v:EqualityToVisibilityConverter}}, ConverterParameter=Success}">
+              <TextBlock Margin="0" Text="Shown only when status equals Success"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-40 StringEqualsToVisibilityConverter  param=MX"/>
+            <ComboBox ItemsSource="{Binding DnsTypes}" SelectedItem="{Binding DnsType}"/>
+            <Border Style="{StaticResource Chip}" Background="#7C3AED" Visibility="{Binding DnsType, Converter={v:Resolve {x:Type v:StringEqualsToVisibilityConverter}}, ConverterParameter=MX}">
+              <TextBlock Margin="0" Text="Mail exchanger row"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-41 InvertVisibilityConverter"/>
+            <Border Style="{StaticResource Chip}" Background="#166534" Visibility="{Binding IsBusy, Converter={v:Resolve {x:Type v:InvertVisibilityConverter}}}">
+              <TextBlock Margin="0" Text="Ready panel (hidden while busy)"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-42 EnumMatchToVisibilityConverter  param=Success,Timeout"/>
+            <ComboBox ItemsSource="{Binding PingStatuses}" SelectedItem="{Binding PingStatus}"/>
+            <Border Style="{StaticResource Chip}" Visibility="{Binding PingStatus, Converter={v:Resolve {x:Type v:EnumMatchToVisibilityConverter}}, ConverterParameter='Success,Timeout'}">
+              <TextBlock Margin="0" Text="Success or Timeout path"/>
+            </Border>
+          </StackPanel>
+        </Border>
+      </UniformGrid>
+    </ScrollViewer>
+  </DataTemplate>
+</ResourceDictionary>
