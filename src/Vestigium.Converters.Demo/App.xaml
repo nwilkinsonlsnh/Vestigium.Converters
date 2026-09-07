@@ -2,5 +2,19 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
-  <Application.Resources />
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Gallery/Styles.xaml"/>
+        <ResourceDictionary Source="Gallery/ShowcaseTab.xaml"/>
+        <ResourceDictionary Source="Gallery/VisibilityTab.xaml"/>
+        <ResourceDictionary Source="Gallery/BooleanTab.xaml"/>
+        <ResourceDictionary Source="Gallery/FormattingTab.xaml"/>
+        <ResourceDictionary Source="Gallery/NumericTab.xaml"/>
+        <ResourceDictionary Source="Gallery/CollectionsTab.xaml"/>
+        <ResourceDictionary Source="Gallery/DomainTab.xaml"/>
+        <ResourceDictionary Source="Gallery/MultiTab.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
 </Application>

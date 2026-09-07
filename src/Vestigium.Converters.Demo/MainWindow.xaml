@@ -1,108 +1,32 @@
 <Window x:Class="Vestigium.Converters.Demo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:v="http://schemas.vestigium.dev/converters"
-        Title="Vestigium.Converters"
-        Height="720" Width="980"
-        Background="#0F2340" Foreground="#E2E8F0"
-        FontFamily="Segoe UI">
-  <Window.Resources>
-    <Style TargetType="TextBlock">
-      <Setter Property="Margin" Value="0,0,0,6"/>
-    </Style>
-    <Style TargetType="Button">
-      <Setter Property="Padding" Value="12,6"/>
-      <Setter Property="Margin" Value="0,0,8,0"/>
-    </Style>
-  </Window.Resources>
-
-  <Grid Margin="24">
+        Title="Vestigium.Converters gallery"
+        Height="840" Width="1240"
+        MinHeight="640" MinWidth="960"
+        Background="#0B1A30" Foreground="#E2E8F0"
+        FontFamily="Segoe UI" FontSize="13">
+  <Grid Margin="20">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-
-    <StackPanel>
-      <TextBlock FontSize="22" FontWeight="SemiBold" Text="Vestigium.Converters demo"/>
-      <TextBlock Opacity="0.75"
-                 Text="Host calls AddVestigiumConverters() once. Views resolve with {v:Resolve}."/>
-    </StackPanel>
-
-    <Grid Grid.Row="1" Margin="0,16,0,0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="2*"/>
-        <ColumnDefinition Width="3*"/>
-      </Grid.ColumnDefinitions>
-
-      <Border Background="#1B365D" Padding="16" CornerRadius="8" Margin="0,0,12,0">
-        <StackPanel>
-          <TextBlock FontWeight="SemiBold" Text="Controls"/>
-          <CheckBox Content="Busy overlay" IsChecked="{Binding IsBusy}" Foreground="#E2E8F0" Margin="0,8"/>
-          <ComboBox ItemsSource="{Binding PingStatuses}" SelectedItem="{Binding PingStatus}" Margin="0,6"/>
-          <ComboBox ItemsSource="{Binding DnsTypes}" SelectedItem="{Binding DnsType}" Margin="0,6"/>
-          <TextBlock Text="Latency (ms)"/>
-          <Slider Minimum="1" Maximum="250" Value="{Binding LatencyMs}" Margin="0,4,0,12"/>
-          <TextBlock Text="Packet loss (%)"/>
-          <Slider Minimum="0" Maximum="20" Value="{Binding PacketLoss}" Margin="0,4,0,12"/>
-          <TextBlock Text="HTTP status"/>
-          <Slider Minimum="100" Maximum="599" Value="{Binding HttpStatus}" TickFrequency="1"/>
-          <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-            <Button Content="Clear hops" Command="{Binding ClearHopsCommand}"/>
-            <Button Content="Restore hops" Command="{Binding RestoreHopsCommand}"/>
-          </StackPanel>
-        </StackPanel>
-      </Border>
-
-      <Border Grid.Column="1" Background="#162A4A" Padding="16" CornerRadius="8">
-        <Grid>
-          <StackPanel>
-            <TextBlock FontSize="18" FontWeight="SemiBold"
-                       Text="{Binding PingStatus, Converter={v:Resolve {x:Type v:StringToUpperConverter}}}"/>
-            <Ellipse Width="18" Height="18" HorizontalAlignment="Left" Margin="0,4,0,12"
-                     Fill="{Binding PingStatus, Converter={v:Resolve {x:Type v:PingStatusToColorBrushConverter}}}"/>
-
-            <TextBlock Text="{Binding LatencyMs, StringFormat=RTT {0:0} ms}"/>
-            <Rectangle Height="10" Width="180" HorizontalAlignment="Left" RadiusX="4" RadiusY="4"
-                       Fill="{Binding LatencyMs, Converter={v:Resolve {x:Type v:LatencyToSeverityColorConverter}}}"/>
-
-            <TextBlock Margin="0,12,0,0" Text="{Binding PacketLoss, StringFormat=Loss {0:0.0}%}"/>
-            <Rectangle Height="10" Width="180" HorizontalAlignment="Left" RadiusX="4" RadiusY="4"
-                       Fill="{Binding PacketLoss, Converter={v:Resolve {x:Type v:PacketLossToSeverityBrushConverter}}}"/>
-
-            <TextBlock Margin="0,12,0,0"
-                       Text="{Binding PayloadBytes, Converter={v:Resolve {x:Type v:BytesToReadableSizeConverter}}}"/>
-            <TextBlock Text="{Binding Uptime, Converter={v:Resolve {x:Type v:TimeSpanToReadableConverter}}}"/>
-            <TextBlock Text="{Binding HttpStatus, Converter={v:Resolve {x:Type v:HttpStatusCodeToDescriptionConverter}}}"/>
-            <TextBlock FontFamily="Segoe Fluent Icons" FontSize="22"
-                       Text="{Binding DnsType, Converter={v:Resolve {x:Type v:DnsRecordTypeToIconConverter}}}"/>
-
-            <TextBlock Margin="0,12,0,0"
-                       Text="{Binding TargetHost, Converter={v:Resolve {x:Type v:TruncateStringConverter}}, ConverterParameter=28}"/>
-            <TextBlock Text="{Binding CapturedAt, Converter={v:Resolve {x:Type v:UtcTimestampToStringConverter}}}"/>
-
-            <TextBlock Margin="0,12,0,0"
-                       Text="{Binding ResultCount, Converter={v:Resolve {x:Type v:CountToBadgeStringConverter}}}"/>
-
-            <ListBox ItemsSource="{Binding Hops}" SelectedItem="{Binding SelectedHop}" Height="90" Margin="0,8"/>
-            <TextBlock Text="No route data"
-                       Visibility="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionEmptyToVisibilityConverter}}, ConverterParameter=Inverse}"/>
-
-            <Border Background="#0D7377" Padding="8" Margin="0,12,0,0"
-                    Visibility="{Binding SelectedHop, Converter={v:Resolve {x:Type v:NullToVisibilityConverter}}}">
-              <TextBlock Text="{Binding SelectedHop, StringFormat=Selected hop: {0}}"/>
-            </Border>
-
-            <TextBlock Text="{Binding Note}"
-                       Visibility="{Binding Note, Converter={v:Resolve {x:Type v:EmptyStringToVisibilityConverter}}}"/>
-          </StackPanel>
-
-          <Border Background="#CC0F2340"
-                  Visibility="{Binding IsBusy, Converter={v:Resolve {x:Type v:BooleanToVisibilityConverter}}}">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                       FontSize="18" Text="Loading…"/>
-          </Border>
-        </Grid>
-      </Border>
-    </Grid>
+    <DockPanel LastChildFill="False" Margin="0,0,0,12">
+      <StackPanel>
+        <TextBlock FontSize="22" FontWeight="SemiBold" Text="Vestigium.Converters gallery"/>
+        <TextBlock Opacity="0.7" Text="AddVestigiumConverters() once. Every sample uses {v:Resolve} — no static converter resources."/>
+      </StackPanel>
+      <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="0.55" Text="42 converters  CONV-01 … CONV-42"/>
+    </DockPanel>
+    <TabControl Grid.Row="1">
+      <TabItem Header="Showcase"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource ShowcaseTab}"/></TabItem>
+      <TabItem Header="Visibility"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource VisibilityTab}"/></TabItem>
+      <TabItem Header="Boolean"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource BooleanTab}"/></TabItem>
+      <TabItem Header="Formatting"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource FormattingTab}"/></TabItem>
+      <TabItem Header="Numeric"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource NumericTab}"/></TabItem>
+      <TabItem Header="Collections"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource CollectionsTab}"/></TabItem>
+      <TabItem Header="Domain"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource DomainTab}"/></TabItem>
+      <TabItem Header="MultiBinding"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource MultiTab}"/></TabItem>
+    </TabControl>
   </Grid>
 </Window>
