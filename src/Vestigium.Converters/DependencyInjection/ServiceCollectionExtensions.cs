@@ -12,7 +12,7 @@ namespace Vestigium.Converters.DependencyInjection;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Registers <see cref="IConverterProvider"/> and every v1 catalog converter as Singleton (INT-01, ARCH-20).
+    /// Registers <see cref="IConverterProvider"/> and every catalog converter as Singleton (INT-01, ARCH-20).
     /// </summary>
     public static IServiceCollection AddVestigiumConverters(this IServiceCollection services)
     {
@@ -41,6 +41,29 @@ public static class ServiceCollectionExtensions
         Register<LatencyToSeverityColorConverter>(services);
         Register<HttpStatusCodeToDescriptionConverter>(services);
         Register<DnsRecordTypeToIconConverter>(services);
+
+        Register<EqualityToBooleanConverter>(services);
+        Register<EqualityToVisibilityConverter>(services);
+        Register<IsLessThanToBooleanConverter>(services);
+        Register<IsBetweenToBooleanConverter>(services);
+        Register<BooleanToBrushConverter>(services);
+        Register<BooleanToOpacityConverter>(services);
+        Register<HttpStatusToSeverityBrushConverter>(services);
+        Register<PercentToStringConverter>(services);
+        Register<MillisecondsToStringConverter>(services);
+        Register<CollectionHasItemsToBooleanConverter>(services);
+        Register<BooleanAndToVisibilityConverter>(services);
+        Register<BooleanOrToVisibilityConverter>(services);
+        Register<DnsResponseCodeToDescriptionConverter>(services);
+        Register<TraceHopStatusToBrushConverter>(services);
+        Register<PortStateToBrushConverter>(services);
+        Register<TruncateStringConverter>(services);
+        Register<UtcTimestampToStringConverter>(services);
+        Register<PacketLossToSeverityBrushConverter>(services);
+        Register<ProgressToPercentConverter>(services);
+        Register<StringEqualsToVisibilityConverter>(services);
+        Register<InvertVisibilityConverter>(services);
+        Register<EnumMatchToVisibilityConverter>(services);
 
         return services;
     }
