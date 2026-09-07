@@ -1,0 +1,55 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="http://schemas.vestigium.dev/converters">
+  <DataTemplate x:Key="BooleanTab">
+    <UniformGrid Columns="2">
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-04 InverseBooleanConverter"/>
+          <CheckBox Content="IsBusy" IsChecked="{Binding IsBusy}"/>
+          <CheckBox Content="Derived !IsBusy" IsEnabled="False"
+                    IsChecked="{Binding IsBusy, Converter={v:Resolve {x:Type v:InverseBooleanConverter}}, Mode=OneWay}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-06 NullToBooleanConverter"/>
+          <CheckBox Content="Has a selected hop" IsEnabled="False"
+                    IsChecked="{Binding SelectedHop, Converter={v:Resolve {x:Type v:NullToBooleanConverter}}, Mode=OneWay}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-21 EqualityToBooleanConverter  param=Success"/>
+          <ComboBox ItemsSource="{Binding PingStatuses}" SelectedItem="{Binding PingStatus}"/>
+          <CheckBox Content="Status is Success" IsEnabled="False"
+                    IsChecked="{Binding PingStatus, Converter={v:Resolve {x:Type v:EqualityToBooleanConverter}}, ConverterParameter=Success, Mode=OneWay}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-25 BooleanToBrushConverter  param=Success,Danger"/>
+          <CheckBox Content="Connected" IsChecked="{Binding IsConnected}"/>
+          <Rectangle Height="16" RadiusX="4" RadiusY="4"
+                     Fill="{Binding IsConnected, Converter={v:Resolve {x:Type v:BooleanToBrushConverter}}, ConverterParameter='Success,Danger'}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-26 BooleanToOpacityConverter  param=1,0.25"/>
+          <TextBlock FontSize="18" Text="Live telemetry"
+                     Opacity="{Binding IsConnected, Converter={v:Resolve {x:Type v:BooleanToOpacityConverter}}, ConverterParameter='1,0.25'}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-30 CollectionHasItemsToBooleanConverter"/>
+          <CheckBox Content="Hops has items" IsEnabled="False"
+                    IsChecked="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionHasItemsToBooleanConverter}}, Mode=OneWay}"/>
+          <Button Content="Clear hops" Command="{Binding ClearHopsCommand}"
+                  IsEnabled="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionHasItemsToBooleanConverter}}"/>
+        </StackPanel>
+      </Border>
+    </UniformGrid>
+  </DataTemplate>
+</ResourceDictionary>

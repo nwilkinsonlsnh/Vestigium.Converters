@@ -1,0 +1,52 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="http://schemas.vestigium.dev/converters">
+  <DataTemplate x:Key="MultiTab">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="280"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Border Style="{StaticResource Panel}" Margin="0,0,12,0">
+        <StackPanel>
+          <TextBlock FontWeight="SemiBold" FontSize="16" Text="Inputs"/>
+          <CheckBox Content="Has selection" IsChecked="{Binding HasSelection}"/>
+          <CheckBox Content="Connected" IsChecked="{Binding IsConnected}"/>
+          <CheckBox Content="Busy" IsChecked="{Binding IsBusy}"/>
+        </StackPanel>
+      </Border>
+      <StackPanel Grid.Column="1">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-31 BooleanAndToVisibilityConverter"/>
+            <TextBlock Opacity="0.7" Text="HasSelection AND IsConnected"/>
+            <Border Style="{StaticResource Chip}" Padding="12">
+              <Border.Visibility>
+                <MultiBinding Converter="{v:Resolve {x:Type v:BooleanAndToVisibilityConverter}}">
+                  <Binding Path="HasSelection"/>
+                  <Binding Path="IsConnected"/>
+                </MultiBinding>
+              </Border.Visibility>
+              <TextBlock Margin="0" Text="Action bar — both flags required"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-32 BooleanOrToVisibilityConverter"/>
+            <TextBlock Opacity="0.7" Text="IsBusy OR NOT IsConnected"/>
+            <Border Style="{StaticResource Chip}" Background="#92400E" Padding="12">
+              <Border.Visibility>
+                <MultiBinding Converter="{v:Resolve {x:Type v:BooleanOrToVisibilityConverter}}">
+                  <Binding Path="IsBusy"/>
+                  <Binding Path="IsConnected" Converter="{v:Resolve {x:Type v:InverseBooleanConverter}}"/>
+                </MultiBinding>
+              </Border.Visibility>
+              <TextBlock Margin="0" Text="Degraded banner — busy or offline"/>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </Grid>
+  </DataTemplate>
+</ResourceDictionary>

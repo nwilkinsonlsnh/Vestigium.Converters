@@ -1,0 +1,51 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="http://schemas.vestigium.dev/converters">
+  <DataTemplate x:Key="CollectionsTab">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="340"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Border Style="{StaticResource Panel}" Margin="0,0,12,0">
+        <StackPanel>
+          <TextBlock FontWeight="SemiBold" FontSize="16" Text="Hop list"/>
+          <ListBox ItemsSource="{Binding Hops}" SelectedItem="{Binding SelectedHop}" Height="200"/>
+          <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+            <Button Content="Clear" Command="{Binding ClearHopsCommand}"/>
+            <Button Content="Restore" Command="{Binding RestoreHopsCommand}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+      <StackPanel Grid.Column="1">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-15 CollectionEmptyToVisibilityConverter"/>
+            <Border Style="{StaticResource Chip}" Background="#7F1D1D" Visibility="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionEmptyToVisibilityConverter}}, ConverterParameter=Inverse}">
+              <TextBlock Margin="0" Text="No route data"/>
+            </Border>
+            <Border Style="{StaticResource Chip}" Visibility="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionEmptyToVisibilityConverter}}}">
+              <TextBlock Margin="0" Text="Route table has rows"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-16 CountToBadgeStringConverter"/>
+            <Slider Minimum="0" Maximum="140" Value="{Binding ResultCount}"/>
+            <Border Style="{StaticResource Chip}" HorizontalAlignment="Left">
+              <TextBlock Margin="0" FontSize="16" Text="{Binding ResultCount, Converter={v:Resolve {x:Type v:CountToBadgeStringConverter}}}"/>
+            </Border>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-30 CollectionHasItemsToBooleanConverter"/>
+            <CheckBox Content="Has items" IsEnabled="False"
+                      IsChecked="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionHasItemsToBooleanConverter}}, Mode=OneWay}"/>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </Grid>
+  </DataTemplate>
+</ResourceDictionary>
