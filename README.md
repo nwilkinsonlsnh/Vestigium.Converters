@@ -8,7 +8,8 @@ DI-driven WPF `IValueConverter` catalog for the Vestigium suite (PingIQ, DnsIQ, 
 **Architecture:** MVVM + `Microsoft.Extensions.DependencyInjection`  
 **Startup project:** `Vestigium.Converters.Demo` (tabbed catalog gallery)
 
-Verbose reference: [`_Documentation/DevelopersGuide_v1.0.md`](_Documentation/DevelopersGuide_v1.0.md)
+Requirements: [`_Documentation/RequirementsSpecification_v1.1.md`](_Documentation/RequirementsSpecification_v1.1.md)  
+Implementation notes: [`_Documentation/DevelopersGuide_v1.0.md`](_Documentation/DevelopersGuide_v1.0.md)
 
 ## Why this library
 
