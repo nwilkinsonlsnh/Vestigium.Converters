@@ -47,7 +47,7 @@
           <CheckBox Content="Hops has items" IsEnabled="False"
                     IsChecked="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionHasItemsToBooleanConverter}}, Mode=OneWay}"/>
           <Button Content="Clear hops" Command="{Binding ClearHopsCommand}"
-                  IsEnabled="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionHasItemsToBooleanConverter}}"/>
+                  IsEnabled="{Binding Hops, Converter={v:Resolve {x:Type v:CollectionHasItemsToBooleanConverter}}}"/>
         </StackPanel>
       </Border>
     </UniformGrid>
