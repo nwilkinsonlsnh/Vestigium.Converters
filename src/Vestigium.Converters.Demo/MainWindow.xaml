@@ -42,6 +42,8 @@
           <ComboBox ItemsSource="{Binding DnsTypes}" SelectedItem="{Binding DnsType}" Margin="0,6"/>
           <TextBlock Text="Latency (ms)"/>
           <Slider Minimum="1" Maximum="250" Value="{Binding LatencyMs}" Margin="0,4,0,12"/>
+          <TextBlock Text="Packet loss (%)"/>
+          <Slider Minimum="0" Maximum="20" Value="{Binding PacketLoss}" Margin="0,4,0,12"/>
           <TextBlock Text="HTTP status"/>
           <Slider Minimum="100" Maximum="599" Value="{Binding HttpStatus}" TickFrequency="1"/>
           <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
@@ -63,12 +65,20 @@
             <Rectangle Height="10" Width="180" HorizontalAlignment="Left" RadiusX="4" RadiusY="4"
                        Fill="{Binding LatencyMs, Converter={v:Resolve {x:Type v:LatencyToSeverityColorConverter}}}"/>
 
+            <TextBlock Margin="0,12,0,0" Text="{Binding PacketLoss, StringFormat=Loss {0:0.0}%}"/>
+            <Rectangle Height="10" Width="180" HorizontalAlignment="Left" RadiusX="4" RadiusY="4"
+                       Fill="{Binding PacketLoss, Converter={v:Resolve {x:Type v:PacketLossToSeverityBrushConverter}}}"/>
+
             <TextBlock Margin="0,12,0,0"
                        Text="{Binding PayloadBytes, Converter={v:Resolve {x:Type v:BytesToReadableSizeConverter}}}"/>
             <TextBlock Text="{Binding Uptime, Converter={v:Resolve {x:Type v:TimeSpanToReadableConverter}}}"/>
             <TextBlock Text="{Binding HttpStatus, Converter={v:Resolve {x:Type v:HttpStatusCodeToDescriptionConverter}}}"/>
             <TextBlock FontFamily="Segoe Fluent Icons" FontSize="22"
                        Text="{Binding DnsType, Converter={v:Resolve {x:Type v:DnsRecordTypeToIconConverter}}}"/>
+
+            <TextBlock Margin="0,12,0,0"
+                       Text="{Binding TargetHost, Converter={v:Resolve {x:Type v:TruncateStringConverter}}, ConverterParameter=28}"/>
+            <TextBlock Text="{Binding CapturedAt, Converter={v:Resolve {x:Type v:UtcTimestampToStringConverter}}}"/>
 
             <TextBlock Margin="0,12,0,0"
                        Text="{Binding ResultCount, Converter={v:Resolve {x:Type v:CountToBadgeStringConverter}}}"/>
