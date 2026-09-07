@@ -6,7 +6,7 @@ DI-driven WPF `IValueConverter` catalog for the Vestigium suite (PingIQ, DnsIQ, 
 
 **Target:** .NET 10 LTS / WPF / Visual Studio 2026  
 **Architecture:** MVVM + `Microsoft.Extensions.DependencyInjection`  
-**Startup project:** `Vestigium.Converters.Demo`
+**Startup project:** `Vestigium.Converters.Demo` (tabbed catalog gallery)
 
 Verbose reference: [`_Documentation/DevelopersGuide_v1.0.md`](_Documentation/DevelopersGuide_v1.0.md)
 
@@ -29,6 +29,8 @@ State-free converters are **Singleton** so continuous ping UI does not allocate 
 2. Open `Vestigium.Converters.slnx` in Visual Studio 2026.
 3. Restore NuGet, set **Vestigium.Converters.Demo** as the startup project.
 4. Run on Windows.
+
+The demo is a dark tabbed gallery. Each tab groups the catalog (Showcase, Visibility, Boolean, Formatting, Numeric, Collections, Domain, MultiBinding) and every binding uses `{v:Resolve}`. Toggle the sliders and checkboxes to watch brushes, visibility, and formatted text update.
 
 ## Host in two calls
 
@@ -99,7 +101,7 @@ Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestig
 |---|---|---|
 | `Vestigium.Converters` | Infrastructure + catalog |
 | `Vestigium.Converters.Tests` | Mapping, fail-safe, DI lifetime tests |
-| `Vestigium.Converters.Demo` | Host sample using `{v:Resolve}` |
+| `Vestigium.Converters.Demo` | Tabbed `{v:Resolve}` catalog gallery |
 
 ## Contracts that do not move
 
