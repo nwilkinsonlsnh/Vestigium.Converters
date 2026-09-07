@@ -1,0 +1,66 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="http://schemas.vestigium.dev/converters">
+  <DataTemplate x:Key="FormattingTab">
+    <UniformGrid Columns="2">
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-08 EnumToDescriptionConverter"/>
+          <ComboBox ItemsSource="{Binding ProbePhases}" SelectedItem="{Binding Phase}"/>
+          <TextBlock FontSize="16" Text="{Binding Phase, Converter={v:Resolve {x:Type v:EnumToDescriptionConverter}}}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-09 BytesToReadableSizeConverter"/>
+          <Slider Minimum="512" Maximum="1073741824" Value="{Binding PayloadBytes}"/>
+          <TextBlock FontSize="16" Text="{Binding PayloadBytes, Converter={v:Resolve {x:Type v:BytesToReadableSizeConverter}}}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-10 TimeSpanToReadableConverter"/>
+          <TextBlock Text="{Binding Uptime, Converter={v:Resolve {x:Type v:TimeSpanToReadableConverter}}}"/>
+          <TextBlock Text="{Binding Uptime, Converter={v:Resolve {x:Type v:TimeSpanToReadableConverter}}, ConverterParameter=Long}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-11 StringToUpperConverter"/>
+          <TextBlock FontSize="16" Text="{Binding PingStatus, Converter={v:Resolve {x:Type v:StringToUpperConverter}}}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-28 PercentToStringConverter"/>
+          <Slider Minimum="0" Maximum="20" Value="{Binding PacketLoss}"/>
+          <TextBlock Text="{Binding PacketLoss, Converter={v:Resolve {x:Type v:PercentToStringConverter}}}"/>
+          <TextBlock Opacity="0.7" Text="Progress + Fraction"/>
+          <TextBlock Text="{Binding Progress, Converter={v:Resolve {x:Type v:PercentToStringConverter}}, ConverterParameter=Fraction}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-29 MillisecondsToStringConverter"/>
+          <Slider Minimum="1" Maximum="250" Value="{Binding LatencyMs}"/>
+          <TextBlock FontSize="16" Text="{Binding LatencyMs, Converter={v:Resolve {x:Type v:MillisecondsToStringConverter}}}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-36 TruncateStringConverter  param=28"/>
+          <TextBlock Text="{Binding TargetHost}"/>
+          <TextBlock FontSize="16" Text="{Binding TargetHost, Converter={v:Resolve {x:Type v:TruncateStringConverter}}, ConverterParameter=28}"/>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-37 UtcTimestampToStringConverter"/>
+          <TextBlock Text="{Binding CapturedAt, Converter={v:Resolve {x:Type v:UtcTimestampToStringConverter}}}"/>
+          <TextBlock Text="{Binding CapturedAt, Converter={v:Resolve {x:Type v:UtcTimestampToStringConverter}}, ConverterParameter=u}"/>
+          <Button Content="Stamp UTC now" Command="{Binding StampNowCommand}" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+        </StackPanel>
+      </Border>
+    </UniformGrid>
+  </DataTemplate>
+</ResourceDictionary>

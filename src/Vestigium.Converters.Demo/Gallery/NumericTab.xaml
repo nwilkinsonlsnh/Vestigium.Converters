@@ -1,0 +1,50 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="http://schemas.vestigium.dev/converters">
+  <DataTemplate x:Key="NumericTab">
+    <StackPanel>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-12 / 23 / 24  thresholds on latency"/>
+          <Slider Minimum="1" Maximum="250" Value="{Binding LatencyMs}"/>
+          <TextBlock Text="{Binding LatencyMs, StringFormat=Value: {0:0} ms}"/>
+          <CheckBox Content="Greater than 50 (CONV-12)" IsEnabled="False"
+                    IsChecked="{Binding LatencyMs, Converter={v:Resolve {x:Type v:IsGreaterThanToBooleanConverter}}, ConverterParameter=50, Mode=OneWay}"/>
+          <CheckBox Content="Less than 150 (CONV-23)" IsEnabled="False"
+                    IsChecked="{Binding LatencyMs, Converter={v:Resolve {x:Type v:IsLessThanToBooleanConverter}}, ConverterParameter=150, Mode=OneWay}"/>
+          <CheckBox Content="Between 50 and 150 (CONV-24)" IsEnabled="False"
+                    IsChecked="{Binding LatencyMs, Converter={v:Resolve {x:Type v:IsBetweenToBooleanConverter}}, ConverterParameter='50,150', Mode=OneWay}"/>
+        </StackPanel>
+      </Border>
+      <UniformGrid Columns="2">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-13 MathMultiplierConverter  param=2"/>
+            <TextBlock FontSize="16" Text="{Binding LatencyMs, Converter={v:Resolve {x:Type v:MathMultiplierConverter}}, ConverterParameter=2, StringFormat=Scaled RTT {0:0.0} ms}"/>
+          </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource Id}" Text="CONV-39 ProgressToPercentConverter"/>
+            <Slider Minimum="0" Maximum="1" Value="{Binding Progress}"/>
+            <TextBlock FontSize="16" Text="{Binding Progress, Converter={v:Resolve {x:Type v:ProgressToPercentConverter}}, StringFormat={}{0:0.0} percent}"/>
+          </StackPanel>
+        </Border>
+      </UniformGrid>
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Id}" Text="CONV-14 PercentageToGridLengthConverter + Remainder"/>
+          <Slider Minimum="0" Maximum="100" Value="{Binding SplitPercent}"/>
+          <Grid Height="22">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="{Binding SplitPercent, Converter={v:Resolve {x:Type v:PercentageToGridLengthConverter}}}"/>
+              <ColumnDefinition Width="{Binding SplitPercent, Converter={v:Resolve {x:Type v:PercentageToGridLengthConverter}}, ConverterParameter=Remainder}"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="#22C55E" CornerRadius="4,0,0,4"/>
+            <Border Grid.Column="1" Background="#334155" CornerRadius="0,4,4,0"/>
+          </Grid>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </DataTemplate>
+</ResourceDictionary>
