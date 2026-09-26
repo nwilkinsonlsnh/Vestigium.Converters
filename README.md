@@ -6,7 +6,9 @@ DI-driven WPF `IValueConverter` catalog for the Vestigium suite (PingIQ, DnsIQ, 
 
 **Target:** .NET 10 LTS / WPF / Visual Studio 2026  
 **Architecture:** MVVM + `Microsoft.Extensions.DependencyInjection`  
-**Startup project:** `Vestigium.Converters.Demo` (tabbed catalog gallery)
+**License:** MIT (`LICENSE.md`) — stamped onto every project by `Directory.Build.props`
+
+This repository ships the catalog library and its tests. There is no demo executable.
 
 Requirements: [`_Documentation/RequirementsSpecification_v1.1.md`](_Documentation/RequirementsSpecification_v1.1.md)  
 Implementation notes: [`_Documentation/DevelopersGuide_v1.0.md`](_Documentation/DevelopersGuide_v1.0.md)
@@ -28,10 +30,10 @@ State-free converters are **Singleton** so continuous ping UI does not allocate 
 
 1. Clone this repository.
 2. Open `Vestigium.Converters.slnx` in Visual Studio 2026.
-3. Restore NuGet, set **Vestigium.Converters.Demo** as the startup project.
-4. Run on Windows.
+3. Restore NuGet and build.
+4. Run `dotnet test Vestigium.Converters.slnx -c Release`.
 
-The demo is a dark tabbed gallery. Each tab groups the catalog (Showcase, Visibility, Boolean, Formatting, Numeric, Collections, Domain, MultiBinding) and every binding uses `{v:Resolve}`. Toggle the sliders and checkboxes to watch brushes, visibility, and formatted text update.
+A consuming application owns the executable and themes.
 
 ## Host in two calls
 
@@ -99,10 +101,9 @@ Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestig
 ## Projects
 
 | Project | Role |
-|---|---|---|
+|---|---|
 | `Vestigium.Converters` | Infrastructure + catalog |
 | `Vestigium.Converters.Tests` | Mapping, fail-safe, DI lifetime tests |
-| `Vestigium.Converters.Demo` | Tabbed `{v:Resolve}` catalog gallery |
 
 ## Contracts that do not move
 
@@ -111,3 +112,4 @@ Optional: register `IConfiguration` and/or `IThemeBrushes` **before** `AddVestig
 - Domain converters accept **enum or string** and do not reference PingIQ / HttpIQ assemblies.
 - Frozen cached brushes on severity converters.
 - Optional services (`IThemeBrushes`, `IConfiguration`) are resolved lazily; a miss does not cache as failure.
+- MIT license (`LICENSE.md`) and the root README are linked into every project from `Directory.Build.props`. Do not copy those files into `src/`.
